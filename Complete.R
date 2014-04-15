@@ -9,6 +9,7 @@ directory <-x
 id <-y #vector with one or several numbers
 counter <-0
 
+results <-data.frame(id = numeric(0), nobs = numeric(0))
 #Find each file name, read each file
 for(n in 1:length(id)){
      #add initial zeroes
@@ -22,12 +23,13 @@ for(n in 1:length(id)){
      
      for(o in 1:nrow(table)){
        if(is.na(table[o,2]) == FALSE && is.na(table[o,3]) == FALSE){
-		
-               counter = counter +1
-			
-			   }
-	 }
-     print(file)
-     print(counter)
+		thisid <- (table[o,4])
+		counter = counter +1
+		}
+	}	
+	 thisresult <-data.frame(id = thisid, nobs = counter )
+	 results<-rbind(results,thisresult)
 }
+print(results)
+
 }
