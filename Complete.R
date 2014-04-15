@@ -7,7 +7,6 @@ complete <- function(x, y){
 
 directory <-x
 id <-y #vector with one or several numbers
-
 counter <-0
 
 #Find each file name, read each file
@@ -21,11 +20,14 @@ for(n in 1:length(id)){
      path <-paste(directory, file, sep="/") #put together the file path
      table <-read.csv(path, sep=",") #read file
      
-     for(n in 1:ncol(table)){
-          if(table[1,2] != "NA") & (table[1,3] != "NA"){
+     for(o in 1:nrow(table)){
+       if(is.na(table[o,2]) == FALSE && is.na(table[o,3]) == FALSE){
+		
                counter = counter +1
-     }
-     return(file, counter)
+			
+			   }
+	 }
+     print(file)
+     print(counter)
 }
-
-#table <-read.csv(specdata/001.csv, sep=",")     
+}
