@@ -12,10 +12,10 @@ corr <- function(x, y) {
 
   
 #My own function from previous, run for all files
-output_complete <- complete(directory, 1:length(files))
-#While I test, I only run the first 10 samples
+#output_complete <- complete(directory, 1:length(files))
 
-#output_complete <- complete(directory, 1:10)
+#While I test, I only run the first 10 samples
+output_complete <- complete(directory, 1:10)
 
  #For each line in the output 
 for(n in 1:nrow(output_complete)){
@@ -44,7 +44,8 @@ for(n in 1:nrow(output_complete)){
 	}
 }	
 
-	correlated_results <- cor(results)
+#return(results)
+	correlated_results <- cor(results$sulfate, results$nitrate, use="complete", method=c("pearson"))
 	return(correlated_results)
 	 
 }
