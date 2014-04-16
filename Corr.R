@@ -8,22 +8,26 @@ corr <- function(x, y) {
   files <- list.files(x) 
    #length(files)
   
-  results <-data.frame(sulfate = numeric(0), nitrate = numeric(0))
+#  results <-data.frame(sulfate = numeric(0), nitrate = numeric(0))
 
+results <- vector()
   
 #My own function from previous, run for all files
-#output_complete <- complete(directory, 1:length(files))
+output_complete <- complete(directory, 1:length(files))
 
 #While I test, I only run the first 10 samples
-output_complete <- complete(directory, 1:10)
+#output_complete <- complete(directory, 1:10)
 
  #For each line in the output 
 for(n in 1:nrow(output_complete)){
 	id <- output_complete[n,1]
 	no_complete <- output_complete[n,2]
 	#For files where the number of complete observations is greater 	than the threshold
-	 if (no_complete > threshold){
+	
+	if (no_complete > threshold){
 	   sample_results <-data.frame(sulfate = numeric(0), nitrate = numeric(0))
+#sample_results <- data.frame()
+#	sample_results <- vector()
 	 	 #open file
 		if (nchar(id) == 1){ id2<- paste(c("00"), id, sep = "")}
 		if (nchar(id) == 2){ id2<- paste(c("0"), id, sep = "")}
@@ -36,17 +40,25 @@ for(n in 1:nrow(output_complete)){
 			if(is.na(table[o,2]) == FALSE && is.na(table[o,3]) == FALSE){
 				thisresult <- data.frame(sulfate = table[o,2], nitrate = table[o,3] )
 				sample_results <- rbind(sample_results, thisresult)
+				
 				}
 		}
+		correlated_sample_results <- vector()
+		
+		
+		
+
+		correlated_sample_results <- cor(sample_results$sulfate, sample_results$nitrate, use="complete", method=c("pearson"))
+
 		
 		#Here I collect all datapoints with both sulfate and nitrate data from stations over the treshhold 
-		 results <- rbind(results,sample_results)
+		 results <- rbind(results,correlated_sample_results)
 	}
 }	
 
-#return(results)
-	correlated_results <- cor(results$sulfate, results$nitrate, use="complete", method=c("pearson"))
-	return(correlated_results)
+return(results)
+#	correlated_results <- cor(results$sulfate, results$nitrate, use="complete", method=c("pearson"))
+	#return(t(results))
 	 
 }
 
